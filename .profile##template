@@ -1,0 +1,58 @@
+### -------------- Path Modifications -------------------
+additional_paths=(
+    "$HOME/.local/bin"
+    "$HOME/bin"
+    "/usr/local/cuda/bin"
+)
+additional_libs=(
+    "/usr/local/cuda/lib64"
+)
+additional_manpaths=(
+    "$HOME/.local/man"
+)
+
+for dir in "${additional_paths[@]}"; do
+    if [ -d "$dir" ] && [[ ":$PATH:" != *":$dir:"* ]]; then
+        export PATH="$dir${PATH:+:${PATH}}"
+    fi
+done
+
+for dir in "${additional_libs[@]}"; do
+    if [ -d "$dir" ] && [[ ":$LD_LIBRARY_PATH:" != *":$dir:"* ]]; then
+        export LD_LIBRARY_PATH="$dir${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}"
+    fi
+done
+
+
+for dir in "${additional_manpaths[@]}"; do
+    if [ -d "$dir" ] && [[ ":$MANPATH:" != *":$dir:"* ]]; then
+        export MANPATH="$dir${MANPATH:+:${MANPATH}}"
+    fi
+done
+
+### -------------- Exports -------------------
+export GPG_TTY=$TTY
+export CORS_ALLOW_ORIGIN="http://127.0.0.1"
+
+if command -v micro &> /dev/null; then
+    export EDITOR="micro"
+elif command -v nano &> /dev/null; then
+    export EDITOR="nano"
+elif command -v vim &> /dev/null; then
+    export EDITOR="vim"
+else
+    export EDITOR="vi"
+fi
+
+if command -v code &> /dev/null; then
+    export VISUAL="code"
+elif command -v gedit &> /dev/null; then
+    export VISUAL="gedit"
+else
+fi
+
+# # Use this to use a different cache directory per machine optionally, useful if /home is a network mount
+# local_cache_dir="/tmp/$USER/.cache"
+# unset XDG_CACHE_HOME
+# mkdir -p $local_cache_dir
+# export XDG_CACHE_HOME=$local_cache_dir

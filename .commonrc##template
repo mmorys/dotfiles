@@ -1,0 +1,45 @@
+### -------------- Aliases -------------------
+function mkcd() { [[ $# == 1 ]] && mkdir -p -- "$1" && cd "$1" }
+command -v trash &> /dev/null && {alias rm=trash; alias rmo=rm}
+
+export PYINIT_GIT_REMOTE="git@gitlab.dle.afrl.af.mil:MARCIN.MORYS"
+
+[ -f "${HOME}/dotfiles/.localrc" ] && source "${HOME}/dotfiles/.localrc"
+[ -f /data/morysmm/pythons/.python_env ] && source /data/morysmm/pythons/.python_env
+
+### -------------- Source local -------------------
+[ -f "$HOME/.localrc" ] && source "$HOME/.localrc"
+
+export FORCE_COLOR=1
+
+### -------------- fzf -------------------
+if command -v fzf &> /dev/null && command -v fd &> /dev/null; then
+    _fzf_compgen_path() {
+    echo "$1"
+    fd --type d --type f --type l --hidden --exclude .git --exclude .hg --exclude .svn --base-directory "$1" . 2> /dev/null
+    }
+    _fzf_compgen_dir() {
+    fd --type d --hidden --exclude .git --exclude .hg --exclude .svn --base-directory "$1" . 2> /dev/null
+    }
+    export FZF_CTRL_T_COMMAND="fd --hidden --exclude .git --exclude .hg --exclude .svn --exclude sysfs --exclude devfs --exclude devtmpfs --exclude proc --type f --type d --type l --strip-cwd-prefix"
+    export FZF_ALT_C_COMMAND="fd --type d --hidden --exclude .git --exclude .hg --exclude .svn --exclude sysfs --exclude devfs --exclude devtmpfs --exclude proc --strip-cwd-prefix"
+fi
+
+### ------------------ python ------------------
+{% if yadm.class == "work" %}
+python_env_prefixes=(
+    "/data/$USER"
+    "/data1/$USER"
+    "/data2/$USER"
+    "/data3/$USER"
+    "/work/$USER"
+    "$HOME"
+)
+for prefix in "${python_env_prefixes[@]}"; do
+    env_file="$prefix/pythons/.python_env"
+    if [ -f "$env_file" ]; then
+        source "$env_file"
+        break
+    fi
+done
+{% endif %}
