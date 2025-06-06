@@ -1,5 +1,5 @@
 ### -------------- Source common -------------------
-[ -f "$HOME/.dotfiles/.commonrc" ] && source "$HOME/.dotfiles/.commonrc"
+[ -f "$HOME/.commonrc" ] && source "$HOME/.commonrc"
 
 ### -------------- History -------------------
 export HISTFILE=~/.bash_history

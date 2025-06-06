@@ -4,7 +4,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 ### -------------- Source common -------------------
-[ -f "$HOME/.dotfiles/.commonrc" ] && source "$HOME/.dotfiles/.commonrc"
+[ -f "$HOME/.commonrc" ] && source "$HOME/.commonrc"
 
 ### -------------- History -------------------
 export HISTFILE=~/.zsh_history
