@@ -1,3 +1,7 @@
 if [ -f "$HOME/.profile" ]; then
-    . "$HOME/.profile"
+    source "$HOME/.profile"
+fi
+
+if [ -f "$HOME/.bashrc" ]; then
+    source "$HOME/.bashrc"
 fi
